@@ -10,6 +10,8 @@ const KULALA_DIR = "kulala-core";
  * - Windows: %APPDATA%/kulala-core (e.g. C:\Users\<user>\AppData\Roaming\kulala-core)
  */
 export function getDataDir(): string {
+  const explicit = process.env.KULALA_CORE_DATA_DIR?.trim();
+  if (explicit) return explicit;
   const home = process.env.HOME ?? process.env.USERPROFILE ?? "";
   const platform = process.platform;
 
