@@ -33,6 +33,21 @@ test("data dir returns a path", () => {
   expect(dir).toContain("kulala");
 });
 
+test("data dir honors an explicit cross-platform override", () => {
+  const previous = process.env.KULALA_CORE_DATA_DIR;
+  const explicit = "relative-test-data/kulala";
+  try {
+    process.env.KULALA_CORE_DATA_DIR = `  ${explicit}  `;
+    expect(getDataDir()).toBe(explicit);
+  } finally {
+    if (previous === undefined) {
+      delete process.env.KULALA_CORE_DATA_DIR;
+    } else {
+      process.env.KULALA_CORE_DATA_DIR = previous;
+    }
+  }
+});
+
 test("document store: save and load", () => {
   const doc: KulalaDocument = {
     filepath: "/foo/test.http",
